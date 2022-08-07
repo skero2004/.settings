@@ -45,6 +45,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'dpelle/vim-LanguageTool'
 Plug 'lervag/vimtex'
 Plug 'Maxattax97/coc-ccls'
+Plug 'pangloss/vim-javascript'
 
 call plug#end()
 

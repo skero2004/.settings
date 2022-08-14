@@ -10,6 +10,7 @@ set lazyredraw
 set confirm
 set ruler
 set nobackup
+set nowritebackup
 set autoindent
 set number
 set hlsearch
@@ -21,6 +22,7 @@ set wildmenu
 set smarttab
 set wildmode=list:longest
 set mouse=a
+set signcolumn=yes
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
 "numerical settings
@@ -38,15 +40,15 @@ set pastetoggle=<F11>
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'kovetskiy/sxhkd-vim'
 Plug 'lambdalisue/suda.vim'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'scrooloose/nerdtree'
 Plug 'jiangmiao/auto-pairs'
-Plug 'dpelle/vim-LanguageTool'
 Plug 'lervag/vimtex'
-Plug 'Maxattax97/coc-ccls'
 Plug 'pangloss/vim-javascript'
 Plug 'deoplete-plugins/deoplete-clang'
+Plug 'kovetskiy/sxhkd-vim'
 
 call plug#end()
 
@@ -54,16 +56,29 @@ filetype on
 syntax on
 filetype plugin indent on
 
-"Coc selection
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-  inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
-  " remap for complete to use tab and <cr>
-  inoremap <silent><expr> <TAB>
-        \ coc#pum#visible() ? coc#pum#next(1):
-        \ <SID>check_back_space() ? "\<Tab>" :
-        \ coc#refresh()
-  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
 " set colorscheme
 colorscheme atom-dark-256

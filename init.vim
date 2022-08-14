@@ -46,27 +46,24 @@ Plug 'dpelle/vim-LanguageTool'
 Plug 'lervag/vimtex'
 Plug 'Maxattax97/coc-ccls'
 Plug 'pangloss/vim-javascript'
+Plug 'deoplete-plugins/deoplete-clang'
 
 call plug#end()
-
-" use <Tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-
-" use <Tab> and <S-Tab> to navigate the completion list
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 filetype on
 syntax on
 filetype plugin indent on
+
+"Coc selection
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+  inoremap <silent><expr> <C-x><C-z> coc#pum#visible() ? coc#pum#stop() : "\<C-x>\<C-z>"
+  " remap for complete to use tab and <cr>
+  inoremap <silent><expr> <TAB>
+        \ coc#pum#visible() ? coc#pum#next(1):
+        \ <SID>check_back_space() ? "\<Tab>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+  inoremap <silent><expr> <c-space> coc#refresh()
 
 " set colorscheme
 colorscheme atom-dark-256

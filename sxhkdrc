@@ -1,0 +1,22 @@
+alt + shift + s
+	maim -s /home/toyat/Downloads/$(date +%Y-%m-%d-%H_%M-%S).jpg
+
+alt + shift + f
+	maim /home/toyat/Downloads/$(date +%Y-%m-%d-%H_%M-%S).jpg
+
+XF86AudioRaiseVolume
+	amixer set Master 4%+
+
+XF86AudioLowerVolume
+	amixer set Master 4%-
+
+XF86AudioMute
+	amixer set Master toggle
+
+XF86MonBrightnessUp
+	backlight_control +5
+
+XF86MonBrightnessDown
+	backlight_control -5
+
+

@@ -54,6 +54,9 @@ feh --bg-fill --randomize ~/bg &
 # For mozc
 fcitx &
 
+# Start sxhkd.service
+systemctl --user start sxhkd.service &
+
 # fcitx
 export XMODIFIERS=@im=fcitx
 export QT_IM_MODULE=fcitx
